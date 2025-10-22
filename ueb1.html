@@ -5,40 +5,74 @@
     <title>Grundstruktur HTML</title>
 </head>
 <body>
-    <header>
-        <h1>ICH</h1>
+    <header style="background:none; color:#222; padding:0; border-radius:0;">
+        <h1 class="preserve-dark" style="text-align:center; color:#222; background:#fff; margin:2rem auto 1.5rem auto; padding:0.5rem 0; max-width:350px; border-radius:8px; box-shadow:0 1px 4px rgba(0,0,0,0.06);">ICH</h1>
+        <div style="position:absolute; top:8px; right:12px; display:flex; align-items:center; gap:8px;">
+            <!-- GitHub logo -->
+            <a class="logo" href="https://github.com/jb12456" target="_blank" rel="noopener noreferrer" title="GitHub">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.88-1.45-3.88-1.45-.52-1.33-1.27-1.69-1.27-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.67 1.25 3.32.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.27-5.24-5.66 0-1.25.45-2.27 1.18-3.07-.12-.29-.51-1.45.11-3.02 0 0 .97-.31 3.18 1.17.92-.26 1.9-.39 2.88-.39.98 0 1.96.13 2.88.39 2.2-1.48 3.17-1.17 3.17-1.17.63 1.57.24 2.73.12 3.02.74.8 1.18 1.82 1.18 3.07 0 4.4-2.7 5.36-5.27 5.64.41.35.77 1.03.77 2.08 0 1.5-.01 2.71-.01 3.08 0 .31.21.68.8.56C20.71 21.39 24 17.08 24 12 24 5.73 18.27.5 12 .5z"/></svg>
+            </a>
+            <!-- Mail logo (mailto) -->
+            <a class="logo mail" href="mailto:julian.bender@students.hs-mainz.de" title="Email schreiben">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            </a>
+            <div id="tab-controls" role="tablist" style="display:flex; gap:6px; align-items:center;">
+                <button class="tab-btn" data-target="about" aria-selected="false" title="About">About</button>
+                <button class="tab-btn" data-target="news" aria-selected="false" title="News">News</button>
+                <button class="tab-btn" data-target="projects" aria-selected="false" title="Projects">Projects</button>
+            </div>
+            <button id="theme-toggle" aria-label="Toggle theme" title="Light / Night" style="background:transparent; border:none; font-size:1.1rem; cursor:pointer;">🌙</button>
+        </div>
     </header>
+
+    <!-- Tab panel (full-page overlay -> wie zweite Seite) -->
+    <div id="tab-panel" class="tab-panel" aria-hidden="true" role="dialog" aria-modal="true">
+        <button id="tab-close" class="tab-close" aria-label="Schließen">✕</button>
+        <div class="tab-content" id="about">
+            <!-- filled by script -->
+        </div>
+        <div class="tab-content" id="news" style="display:none">
+            <div id="news-list">Bitte auswählen, um News zu laden.</div>
+        </div>
+        <div class="tab-content" id="projects" style="display:none">
+            <iframe id="projects-iframe" src="about:blank" frameborder="0" title="Projects" style="width:100%; height:100%; border-radius:6px; border:1px solid rgba(0,0,0,0.08);"></iframe>
+        </div>
+    </div>
+
     <main>
-        <section>
-            <p>Ich habe im Jahr 2000 Abitur gemacht.</p>
-            <p>Jetzt studiere ich Geoinformatik.</p>
+        <section class="preserve-dark" style="background:#eaf4fb; border-radius:6px; padding:1rem 2rem; text-align:right; margin-bottom:0.5rem; float:right; margin-right:2vw;">
+            <p style="margin:0;">Ich habe im Jahr 2000 Abitur gemacht.</p>
+            <p style="margin:0;">Jetzt studiere ich Geoinformatik.</p>
         </section>
-        <section>
-            <h2>Lebenslauf</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Jahr</th>
-                        <th>Position</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>2000-2001</td>
-                        <td>Grundschule</td>
-                    </tr>
-                    <tr>
-                        <td>2001-2002</td>
-                        <td>Gymnasium</td>
-                    </tr>
-                    <tr>
-                        <td>jetzt</td>
-                        <td>Studium</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-    </main>
+        <section style="clear:both;">
+            <div style="margin-left:0; margin-top:0.5rem;">
+                <h2 style="margin-bottom:0.5rem; text-align:left;">Lebenslauf</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="text-align:center;">Jahr</th>
+                            <th style="text-align:center;">Position</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background:#f3f3f3;">
+                            <td style="text-align:center;">2000-2001</td>
+                            <td style="text-align:center;">Grundschule</td>
+                        </tr>
+                        <tr style="background:#f3f3f3;">
+                            <td style="text-align:center;">2001-2002</td>
+                            <td style="text-align:center;">Gymnasium</td>
+                        </tr>
+                        <tr style="background:#f3f3f3;">
+                            <td style="text-align:center;">jetzt</td>
+                            <td style="text-align:center;">Studium</td>
+                        </tr>
+                    </tbody>
+                </table>
+             </div>
+         </section>
+     </main>
+
     <style>
         html {
             box-sizing: border-box;
@@ -55,6 +89,7 @@
             background: #fff;
             border-radius: 8px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            position: relative; /* needed so side-logos can be positioned relative to main content */
         }
         header {
             background: #222;
@@ -86,7 +121,83 @@
             background: #222;
             color: #fff;
         }
-        /* Galerie- und Card-Styles entfernt */
+        html, body, header, table, h1, h2 { transition: background .25s, color .25s, box-shadow .25s; }
+
+        /* Theme toggle styles (position fallback for header-relative placement) */
+        #theme-toggle { position:relative; top:0; right:0; background:transparent; border:1px solid rgba(0,0,0,0.08); color:inherit; padding:6px 8px; border-radius:8px; cursor:pointer; font-size:1rem; line-height:1; transition:transform .12s; }
+        #theme-toggle:active { transform:scale(.98); }
+
+        /* logo buttons */
+        .logo { display:inline-flex; width:36px; height:36px; align-items:center; justify-content:center; border-radius:6px; background:transparent; border:1px solid rgba(0,0,0,0.06); color:#111; text-decoration:none; }
+        .logo svg { width:18px; height:18px; fill:currentColor; }
+        .logo:hover { transform:translateY(-2px); }
+        .logo.mail { padding-left:2px; }
+        /* Night mode for logos */
+        html.night .logo { border-color: rgba(255,255,255,0.06); color:#e6eef8; background: rgba(255,255,255,0.02); }
+
+        /* Tabs */
+        .tab-btn { background: rgba(255,255,255,0.9); border: 1px solid rgba(0,0,0,0.06); padding:6px 10px; border-radius:999px; font-size:0.85rem; cursor:pointer; transition:transform .12s, background .18s; }
+        .tab-btn:hover { transform:translateY(-2px); }
+        .tab-btn.active { background: #222; color:#fff; border-color: rgba(0,0,0,0.2); }
+
+        /* Tab panel as full-screen overlay (wie zweite Seite) */
+        .tab-panel { position:fixed; inset:0; width:100%; height:100%; display:none; z-index:120; align-items:flex-start; justify-content:center; }
+        .tab-panel.show { display:flex; }
+        .tab-panel .tab-content { width:100%; max-width:1100px; margin:48px auto 24px auto; background: #fff; border-radius:8px; padding:20px; box-shadow: 0 10px 30px rgba(0,0,0,0.18); height:calc(100% - 96px); overflow:auto; }
+        .tab-panel .tab-content h2 { margin-top:0; }
+        .tab-panel.show .tab-content { animation:slideIn .22s cubic-bezier(.2,.9,.2,1) both; }
+        @keyframes slideIn { from { transform: translateX(10%); opacity:0 } to { transform: translateX(0%); opacity:1 } }
+
+        /* Night mode for full-screen tab overlay */
+        html.night .tab-panel { background: rgba(4,12,20,0.6); }
+        html.night .tab-panel .tab-content { background: #071826; color: #dff3ff; box-shadow: 0 10px 30px rgba(0,0,0,0.6); }
+        html.night .tab-panel .tab-content h2, html.night .tab-panel .tab-content h3 { color: #e6eef8; }
+        html.night .tab-panel .tab-content a { color: #9ee6ff; }
+        html.night .news-article { background: rgba(255,255,255,0.02); }
+        html.night .news-article img { filter: brightness(0.9) contrast(1.05); }
+        html.night .tab-close { border-color: rgba(255,255,255,0.08); color: #e6eef8; }
+        /* Ensure buttons and controls near header also adapt */
+        html.night .tab-btn { background: rgba(255,255,255,0.03); color: #e6eef8; border-color: rgba(255,255,255,0.04); }
+        html.night .tab-btn.active { background: #0f2a3a; color: #dff3ff; }
+
+        /* side logos: neben der rechten Notiz-Section */
+        .side-logos { float: right; margin-right: 2vw; margin-top: 0.5rem; display:flex; flex-direction:column; gap:8px; z-index:40; }
+        .side-logos .logo { width:44px; height:44px; }
+        @media (max-width: 700px) {
+            .side-logos { float:none; position:static; margin:12px auto 0 auto; flex-direction:row; justify-content:center; gap:10px; }
+        }
+
+        /* News article layout */
+        .news-article { display:flex; gap:12px; align-items:flex-start; }
+        .news-article img { width:120px; height:80px; object-fit:cover; border-radius:6px; flex-shrink:0; }
+        .news-article .news-body { flex:1; }
+
+        /* Night mode styles */
+        html.night { background: #0f1724; color: #e6eef8; }
+        body.night { background: #071021; box-shadow: none; }
+        header.night { background: #081425; color: #e6eef8; }
+        html.night h1 { background: #072033; color: #e6eef8; box-shadow: none; }
+        table.night { background: #062035; }
+        th.night, td.night { border-color: #274057; color: #cfe7ff; background: transparent; }
+        th.night { background: #083046; color: #dff3ff; }
+
+        /* Force text color in night mode (override inline styles) */
+        html.night, body.night, body.night h1, body.night h2, body.night p, body.night li, body.night th, body.night td, body.night a, body.night caption {
+            color: #e6eef8 !important;
+        }
+        /* Override inline backgrounds (table rows/cells) so text stays visible) */
+        body.night tr, body.night tr[style], body.night td[style], body.night th[style] {
+            background: transparent !important;
+        }
+
+        /* Preserve dark text and original light backgrounds for specific elements */
+        body.night .preserve-dark { color: #111 !important; }
+        body.night h1.preserve-dark { background: #fff !important; color: #111 !important; box-shadow: 0 1px 4px rgba(0,0,0,0.06) !important; }
+        body.night section.preserve-dark { background: #eaf4fb !important; color: #111 !important; }
+
+        /* Also force dark color for all descendants so paragraphs/children don't get overridden */
+        body.night .preserve-dark, body.night .preserve-dark * { color: #111 !important; }
+
         @media (max-width: 700px) {
             body {
                 max-width: 100vw;
@@ -95,7 +206,125 @@
             header {
                 border-radius: 0;
             }
+            .tab-panel .tab-content { margin:18px auto 12px auto; height:calc(100% - 48px); }
         }
     </style>
+
+    <script>
+        (function(){
+            // Tab behaviour: full-page overlay (wie zweite Seite)
+            const tabPanel = document.getElementById('tab-panel');
+            const tabButtons = Array.from(document.querySelectorAll('.tab-btn'));
+            const tabClose = document.getElementById('tab-close');
+            let newsLoaded = false;
+
+            function closePanel(){
+                tabPanel.classList.remove('show');
+                tabPanel.setAttribute('aria-hidden','true');
+                document.body.style.overflow = '';
+                tabButtons.forEach(b => b.classList.remove('active'));
+            }
+
+            function openTab(name){
+                // show full-screen panel
+                tabPanel.classList.add('show');
+                tabPanel.setAttribute('aria-hidden','false');
+                document.body.style.overflow = 'hidden';
+                tabButtons.forEach(b => {
+                    const target = b.dataset.target;
+                    const content = document.getElementById(target);
+                    if(b.dataset.target === name){
+                        b.classList.add('active');
+                        if(content) content.style.display = '';
+                    } else {
+                        b.classList.remove('active');
+                        if(content) content.style.display = 'none';
+                    }
+                });
+
+                // load dynamic content
+                if(name === 'about'){
+                    const about = document.getElementById('about');
+                    about.innerHTML = '<h2>About</h2><p>Abitur 2000. Derzeit Studium der Geoinformatik. Lebenslauf: Grundschule (2000–2001), Gymnasium (2001–2002), Studium (jetzt).</p>';
+                }
+                if(name === 'news' && !newsLoaded){
+                    const list = document.getElementById('news-list');
+                    list.innerHTML = 'Lade News...';
+                    fetch('news.json').then(r=>{ if(!r.ok) throw new Error('Netzwerkfehler'); return r.json(); }).then(data=>{
+                        if(!Array.isArray(data) || data.length===0) { list.innerHTML = '<em>Keine News gefunden.</em>'; return; }
+                        const wrapper = document.createElement('div'); wrapper.style.display='flex'; wrapper.style.flexDirection='column'; wrapper.style.gap='10px';
+                        data.forEach(item=>{
+                            const node = document.createElement('article');
+                            node.className = 'news-article';
+                            node.style.padding='12px'; node.style.borderRadius='8px'; node.style.background='rgba(0,0,0,0.03)';
+
+                            // thumbnail if provided
+                            if(item.image){
+                                const img = document.createElement('img');
+                                img.src = item.image;
+                                img.alt = item.title || 'News image';
+                                img.loading = 'lazy';
+                                node.appendChild(img);
+                            }
+
+                            const body = document.createElement('div');
+                            body.className = 'news-body';
+                            const dateHtml = item.date ? ('<div style="font-size:0.85rem; opacity:0.8">'+item.date+'</div>') : '';
+                            const titleHtml = item.title ? ('<h3 style="margin:6px 0">'+(item.link ? ('<a href="'+item.link+'" target="_blank" rel="noopener noreferrer">'+item.title+'</a>') : item.title)+'</h3>') : '';
+                            const summaryHtml = item.summary ? ('<div>'+item.summary+'</div>') : '';
+                            body.innerHTML = dateHtml + titleHtml + summaryHtml;
+                            node.appendChild(body);
+
+                            wrapper.appendChild(node);
+                        });
+                        list.innerHTML = ''; list.appendChild(wrapper);
+                        newsLoaded = true;
+                    }).catch(err=>{ list.innerHTML = '<em>Fehler beim Laden der News.</em>'; });
+                }
+                if(name === 'projects'){
+                    const iframe = document.getElementById('projects-iframe');
+                    if(iframe && iframe.src === 'about:blank') iframe.src = 'map.html';
+                }
+            }
+
+            tabButtons.forEach(tb => tb.addEventListener('click', ()=> openTab(tb.dataset.target)));
+            if(tabClose) tabClose.addEventListener('click', closePanel);
+            // ESC closes panel
+            document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closePanel(); });
+            // clicking outside content closes panel (support mobile)
+            tabPanel.addEventListener('click', (e)=>{ if(e.target === tabPanel) closePanel(); });
+
+            const root = document.documentElement;
+            const body = document.body;
+            const header = document.querySelector('header');
+            const table = document.querySelector('table');
+            const btn = document.getElementById('theme-toggle');
+            function apply(isNight){
+                if(isNight){
+                    root.classList.add('night');
+                    body.classList.add('night');
+                    header && header.classList.add('night');
+                    table && table.classList.add('night');
+                    if(btn) btn.textContent = '☀️';
+                } else {
+                    root.classList.remove('night');
+                    body.classList.remove('night');
+                    header && header.classList.remove('night');
+                    table && table.classList.remove('night');
+                    if(btn) btn.textContent = '🌙';
+                }
+            }
+            try{
+                const saved = localStorage.getItem('theme');
+                if(saved) apply(saved === 'night');
+                else apply(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+            }catch(e){ /* localStorage may be unavailable, ignore */ }
+            if(btn) btn.addEventListener('click', ()=>{
+                const isNight = !root.classList.contains('night');
+                apply(isNight);
+                try{ localStorage.setItem('theme', isNight ? 'night' : 'light'); }catch(e){}
+            });
+        })();
+    </script>
 </body>
 </html>
