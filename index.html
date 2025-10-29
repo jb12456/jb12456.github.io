@@ -35,7 +35,13 @@
             <div id="news-list">Bitte auswählen, um News zu laden.</div>
         </div>
         <div class="tab-content" id="projects" style="display:none">
-            <iframe id="projects-iframe" src="about:blank" frameborder="0" title="Projects" style="width:100%; height:100%; border-radius:6px; border:1px solid rgba(0,0,0,0.08);"></iframe>
+            <h2>Kartenübersicht</h2>
+            <div class="maps-grid" role="group" aria-label="Vier Karten">
+                <iframe class="map-frame" id="map-ifr-1" src="about:blank" title="Basiskarte"></iframe>
+                <iframe class="map-frame" id="map-ifr-2" src="about:blank" title="Punkte"></iframe>
+                <iframe class="map-frame" id="map-ifr-3" src="about:blank" title="Reiseroute"></iframe>
+                <iframe class="map-frame" id="map-ifr-4" src="about:blank" title="Flaechen"></iframe>
+            </div>
         </div>
     </div>
 
@@ -147,6 +153,11 @@
         .tab-panel .tab-content h2 { margin-top:0; }
         .tab-panel.show .tab-content { animation:slideIn .22s cubic-bezier(.2,.9,.2,1) both; }
         @keyframes slideIn { from { transform: translateX(10%); opacity:0 } to { transform: translateX(0%); opacity:1 } }
+
+        /* Maps grid for projects tab: 2 columns x 2 rows */
+        .maps-grid { display:grid; grid-template-columns: 1fr 1fr; gap:12px; height: calc(100% - 48px); }
+        .map-frame { width:100%; height:100%; border-radius:6px; border:1px solid rgba(0,0,0,0.08); }
+        @media (max-width: 700px) { .maps-grid { grid-template-columns: 1fr; } }
 
         /* Night mode for full-screen tab overlay */
         html.night .tab-panel { background: rgba(4,12,20,0.6); }
@@ -282,9 +293,40 @@
                     }).catch(err=>{ list.innerHTML = '<em>Fehler beim Laden der News.</em>'; });
                 }
                 if(name === 'projects'){
-                    const iframe = document.getElementById('projects-iframe');
-                    if(iframe && iframe.src === 'about:blank') iframe.src = 'map.html';
-                }
+                    // load the four separate map HTML files into the grid iframes once
+                    const srcs = [
+                        'map_1_basiskarte.html',
+                        'map_2_punkte.html',
+                        'map_3_reiseroute.html',
+                        'map_4_flaechen_online.html'
+                    ];
+                    srcs.forEach((src, i) => {
+                        const id = 'map-ifr-' + (i+1);
+                        const f = document.getElementById(id);
+                        if(!f) return;
+                        // only set src if still blank to avoid reloading unnecessarily
+                        if(!f.src || f.src.endsWith('about:blank')) f.src = src;
+                    });
+
+                    // after a short delay try to notify iframes/maps to resize so Leaflet renders correctly
+                    setTimeout(() => {
+                        document.querySelectorAll('.map-frame').forEach(iframe => {
+                            try{
+                                const win = iframe.contentWindow;
+                                if(!win) return;
+                                // dispatch a resize event inside the iframe
+                                win.dispatchEvent(new Event('resize'));
+                                // try common map variable names or any object with invalidateSize()
+                                if(typeof win.L === 'object' && typeof win.L.map === 'function'){
+                                    // try to find any global map-like object
+                                    for(const k in win){
+                                        try{ const v = win[k]; if(v && typeof v.invalidateSize === 'function'){ v.invalidateSize(); }}catch(e){}
+                                    }
+                                }
+                            }catch(e){}
+                        });
+                    }, 600);
+                 }
             }
 
             tabButtons.forEach(tb => tb.addEventListener('click', ()=> openTab(tb.dataset.target)));
