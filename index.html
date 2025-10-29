@@ -304,29 +304,50 @@
                         const id = 'map-ifr-' + (i+1);
                         const f = document.getElementById(id);
                         if(!f) return;
+
+                        // prefer lazy loading
+                        try{ f.loading = 'lazy'; }catch(e){}
+
                         // only set src if still blank to avoid reloading unnecessarily
-                        if(!f.src || f.src.endsWith('about:blank')) f.src = src;
+                        if(!f.src || f.src.endsWith('about:blank')){
+                            f.src = src;
+
+                            // when iframe loads, try multiple strategies to make Leaflet redraw
+                            f.onload = () => {
+                                try{
+                                    const win = f.contentWindow;
+                                    if(!win) return;
+
+                                    // 1) dispatch a resize event inside the iframe
+                                    try{ win.dispatchEvent(new Event('resize')); }catch(e){}
+
+                                    // 2) try common global map objects and call invalidateSize()
+                                    try{ if(win.map && typeof win.map.invalidateSize === 'function') win.map.invalidateSize(); }catch(e){}
+                                    try{ if(typeof win.L === 'object' && typeof win.L.map === 'function'){ for(const k in win){ try{ const v = win[k]; if(v && typeof v.invalidateSize === 'function'){ v.invalidateSize(); } }catch(e){} } } }catch(e){}
+
+                                    // 3) postMessage fallback (iframe HTML can listen for this)
+                                    try{ win.postMessage({type:'invalidate'}, '*'); }catch(e){}
+                                }catch(e){}
+                            };
+                        }
                     });
 
-                    // after a short delay try to notify iframes/maps to resize so Leaflet renders correctly
+                    // after a short delay try to notify iframes/maps again so Leaflet renders correctly
                     setTimeout(() => {
                         document.querySelectorAll('.map-frame').forEach(iframe => {
                             try{
                                 const win = iframe.contentWindow;
                                 if(!win) return;
-                                // dispatch a resize event inside the iframe
-                                win.dispatchEvent(new Event('resize'));
-                                // try common map variable names or any object with invalidateSize()
-                                if(typeof win.L === 'object' && typeof win.L.map === 'function'){
-                                    // try to find any global map-like object
-                                    for(const k in win){
-                                        try{ const v = win[k]; if(v && typeof v.invalidateSize === 'function'){ v.invalidateSize(); }}catch(e){}
-                                    }
-                                }
+                                try{ win.dispatchEvent(new Event('resize')); }catch(e){}
+                                try{ if(win.map && typeof win.map.invalidateSize === 'function') win.map.invalidateSize(); }catch(e){}
+                                try{ win.postMessage({type:'invalidate'}, '*'); }catch(e){}
                             }catch(e){}
                         });
                     }, 600);
-                 }
+
+                    // optional: listen for messages from iframes (useful for debugging / confirmation)
+                    // window.addEventListener('message', ev => { console.log('iframe msg', ev.data); });
+                }
             }
 
             tabButtons.forEach(tb => tb.addEventListener('click', ()=> openTab(tb.dataset.target)));
